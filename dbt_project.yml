@@ -1,0 +1,64 @@
+name: dataflow
+version: "1.0.0"
+config-version: 2
+
+profile: standard
+
+model-paths:
+  - "./models"
+macro-paths:
+  - "./macros"
+
+clean-targets:
+  - target
+  - dbt_packages
+  - logs
+
+vars:
+  hash: MD5
+  concat_string: "||"
+  null_placeholder_string: "^^"
+  hash_content_casing: "UPPER"
+  enable_ghost_records: false
+  enable_native_hashes: true
+  system_record_value: "AUTOMATE_DV_SYSTEM"
+  null_key_required: "-1"
+  null_key_optional: "-2"
+  escape_char_left: '"'
+  escape_char_right: '"'
+  env: "{{ env_var('DBT_ENV', 'staging') }}"
+  timezone: Asia/Taipei
+  zero_dt: "1970-01-01 00:00:00"
+
+models:
+  dataflow:
+    +materialized: table
+    staging:
+      +schema: staging
+      +tags:
+        - "staging"
+      mysql:
+        +tags:
+          - "mysql"
+        base:
+          +materialized: view
+      streaming:
+        +tags:
+          - "streaming"
+        base:
+          +materialized: view
+    intermediate:
+      +schema: intermediate
+      +tags:
+        - "intermediate"
+      stage:
+        +materialized: view
+      data_vault:
+        +materialized: incremental
+    information_marts:
+      +schema: information_marts
+      +access: public
+      +tags:
+        - "information_marts"
+      sales:
+        +materialized: view

@@ -1,0 +1,10 @@
+standard:
+  target: "{{ env_var('DBT_PROJECT_PROFILE', 'local') }}"
+  outputs:
+    local:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('GCP_PROJECT_ID') }}"
+      dataset: "{{ env_var('DBT_DATASET_NAME') }}"
+      threads: 4
+      location: asia-east1

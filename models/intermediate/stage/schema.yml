@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: stg__receipt
+    description: Staged receipts with hash keys, link keys and hashdiff. `items_json` is a JSON string of `items` used for hashing.
+    columns:
+      - name: receipt_hk
+        description: Hash of receipt_id.
+        data_tests:
+          - not_null
+      - name: user_hk
+        description: Hash of member_id.
+        data_tests:
+          - not_null
+      - name: seller_hk
+        description: Hash of seller_tax_id.
+        data_tests:
+          - not_null
+      - name: receipt_user_hk
+        description: Link hash of receipt_id + member_id.
+        data_tests:
+          - not_null
+      - name: receipt_seller_hk
+        description: Link hash of receipt_id + seller_tax_id.
+        data_tests:
+          - not_null
+  - name: stg__user
+    description: Staged users with hash key and hashdiff.
+    columns:
+      - name: user_hk
+        description: Hash of user_id.
+        data_tests:
+          - not_null
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["INACTIVE", "VERIFIED", "DEACTIVATED"]
+      - name: gender
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["MALE", "FEMALE"]
+  - name: stg__seller
+    description: Staged sellers with hash keys and hashdiff.
+    columns:
+      - name: seller_hk
+        description: Hash of tax_id.
+        data_tests:
+          - not_null
+      - name: channel_hk
+        description: Hash of channel_id.
+        data_tests:
+          - not_null
+      - name: channel_seller_hk
+        description: Link hash of channel_id + tax_id.
+        data_tests:
+          - not_null
+  - name: stg__channel
+    description: Staged channels with hash key and hashdiff.
+    columns:
+      - name: channel_hk
+        description: Hash of channel_id.
+        data_tests:
+          - not_null

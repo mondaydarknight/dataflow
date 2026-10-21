@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: fct__sales_daily_channel_summary
+    description: Daily sales summary per channel (receipt -> seller -> channel).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: ["channel_hk", "issued_at"]
+    columns:
+      - name: channel_hk
+        description: Channel hash key.
+        data_tests: [not_null]
+      - name: issued_at
+        description: Receipt issue date (issued_at truncated to day).
+        data_tests: [not_null]
+      - name: revenue
+        description: Sum of receipt total_amount.
+      - name: unique_receipt_count
+        description: Count of distinct receipts.
+      - name: unique_customer_count
+        description: Count of distinct users.

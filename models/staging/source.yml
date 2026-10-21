@@ -1,0 +1,58 @@
+version: 2
+
+sources:
+  - name: raw
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
+    schema: raw
+    tables:
+      - name: streaming_event_receipt_finalized
+        description: Receipt finalized events from the streaming pipeline.
+        columns:
+          - name: id
+            description: Receipt event primary key.
+            data_tests: [not_null, unique]
+          - name: member_id
+            description: The user who owns the receipt.
+          - name: receipt_number
+            description: Bimonthly receipt number.
+          - name: currency
+          - name: items
+            description: Array of purchased items.
+          - name: total_amount
+          - name: seller_tax_id
+          - name: created_at
+          - name: issued_at
+          - name: load_datetime
+      - name: streaming_event_user_created
+        description: User created events from the streaming pipeline.
+        columns:
+          - name: id
+            data_tests: [not_null, unique]
+          - name: email
+          - name: username
+          - name: phone_number
+          - name: status
+            description: INACTIVE / VERIFIED / DEACTIVATED
+          - name: gender
+            description: MALE / FEMALE
+          - name: created_at
+          - name: updated_at
+          - name: load_datetime
+      - name: mysql_seller
+        columns:
+          - name: tax_id
+            data_tests: [not_null, unique]
+          - name: channel_id
+          - name: name
+          - name: address
+          - name: created_at
+          - name: updated_at
+          - name: load_datetime
+      - name: mysql_channel
+        columns:
+          - name: id
+            data_tests: [not_null, unique]
+          - name: name
+          - name: created_at
+          - name: updated_at
+          - name: load_datetime
