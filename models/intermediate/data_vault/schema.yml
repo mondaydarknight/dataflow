@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: hub__receipt
+    description: Hub of receipt business keys.
+    columns:
+      - name: receipt_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+          - unique
+  - name: hub__user
+    description: Hub of user business keys.
+    columns:
+      - name: user_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+          - unique
+  - name: hub__seller
+    description: Hub of seller business keys.
+    columns:
+      - name: seller_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+          - unique
+  - name: hub__channel
+    description: Hub of channel business keys.
+    columns:
+      - name: channel_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+          - unique
+  - name: link__receipt_user
+    description: Link between receipt and user.
+    columns:
+      - name: receipt_user_hk
+        description: Link hash key.
+        data_tests:
+          - not_null
+          - unique
+      - name: receipt_hk
+        description: FK to hub__receipt.
+        data_tests:
+          - not_null
+      - name: user_hk
+        description: FK to hub__user.
+        data_tests:
+          - not_null
+  - name: link__receipt_seller
+    description: Link between receipt and seller.
+    columns:
+      - name: receipt_seller_hk
+        description: Link hash key.
+        data_tests:
+          - not_null
+          - unique
+      - name: receipt_hk
+        description: FK to hub__receipt.
+        data_tests:
+          - not_null
+      - name: seller_hk
+        description: FK to hub__seller.
+        data_tests:
+          - not_null
+  - name: link__channel_seller
+    description: Link between channel and seller.
+    columns:
+      - name: channel_seller_hk
+        description: Link hash key.
+        data_tests:
+          - not_null
+          - unique
+      - name: channel_hk
+        description: FK to hub__channel.
+        data_tests:
+          - not_null
+      - name: seller_hk
+        description: FK to hub__seller.
+        data_tests:
+          - not_null
+  - name: sat__receipt
+    description: Descriptive attributes of receipt.
+    columns:
+      - name: receipt_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+      - name: hashdiff
+        description: Hashdiff of payload.
+        data_tests:
+          - not_null
+  - name: sat__user
+    description: Descriptive attributes of user.
+    columns:
+      - name: user_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+      - name: hashdiff
+        description: Hashdiff of payload.
+        data_tests:
+          - not_null
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["INACTIVE", "VERIFIED", "DEACTIVATED"]
+      - name: gender
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["MALE", "FEMALE"]
+  - name: sat__seller
+    description: Descriptive attributes of seller.
+    columns:
+      - name: seller_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+      - name: hashdiff
+        description: Hashdiff of payload.
+        data_tests:
+          - not_null
+  - name: sat__channel
+    description: Descriptive attributes of channel.
+    columns:
+      - name: channel_hk
+        description: Hash key.
+        data_tests:
+          - not_null
+      - name: hashdiff
+        description: Hashdiff of payload.
+        data_tests:
+          - not_null
